@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from scipy.signal import freqz
 from scipy.signal import butter, sosfiltfilt, sosfreqz
 
 class filters:
@@ -26,7 +25,7 @@ class filters:
         return sos
 
     def butter_bandpass_filter(self, data, lowcut, highcut):
-        sos = self.butter_bandpass(lowcut, highcut, self.fs)
+        sos = self.butter_bandpass()
         y = sosfiltfilt(sos, data)
         return y
 
