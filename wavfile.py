@@ -31,7 +31,7 @@ class wavfile:
         if(len(self.data) < 1):
             self.data = self.read_wav(0.0, 1.0)
         self.fftN = len(self.data[channel])
-        self.fftT = duration / self.wfile.getframerate()
+        self.fftT = (duration / (self.wfile.getframerate() * 1.0))
         self.fftY = scipy.fftpack.fft(self.data[channel])
         self.fftx = np.linspace(0.0, 1.0 / (2.0 * self.fftT), self.fftN // 2)
 
