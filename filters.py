@@ -16,10 +16,10 @@ class filters:
         self.highcut = highcut
         self.order = order
 
-    def butter_bandpass(self, lowcut, highcut, fs, order=12, setorder=False):
+    def butter_bandpass(self, order=12, setorder=False):
         if setorder == False:
             order = self.order
-        nyq = 0.5 * fs
+        nyq = 0.5 * self.fs
         low = self.lowcut / nyq
         high = self.highcut / nyq
         sos = butter(order, [low, high], analog=False, btype='band', output='sos')
