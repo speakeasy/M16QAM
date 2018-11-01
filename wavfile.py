@@ -28,7 +28,7 @@ class wavfile:
         self.data = lr.core.load(self.filename, sr=self.wfile.getframerate(), mono=False, offset=offset, duration=duration)[0]
 
     def fft_wav(self, offset=0.0, duration=1.0, channel=0):
-        if(len(self.data) < 1):
+        if(len(self.data[channel]) < 1):
             self.data = self.read_wav(0.0, 1.0)
         self.fftN = len(self.data[channel])
         self.fftT = (duration / (self.wfile.getframerate() * 1.0))
@@ -46,17 +46,11 @@ class wavfile:
 
 
 wf = wavfile()
-wf.read_wav(0.15, 0.002)
-filt = filters(250000, 18500, 23250, order=7)
+wf.read_wav(5.0685, 0.003)
+filt = filters(wf.wfile.getframerate(), 21500, 25800, order=12)
 
-t = np.linspace(0, len(wf.data[0]), len(wf.data[0]))
-wf.fft_wav(channel=0)
-cos_mix = np.cos(5*t)
-sin_mix = np.sin(5*t)
-
-X = wf.data[0] * cos_mix
-
-Y = wf.data[1] * -sin_mix
+t = np.linspace(0, len(wf.data[0]), len(wf.data[1]))
+wf.fft_wav()
 
 wf.data[0] = filt.butter_bandpass_filter(wf.data[0], filt.lowcut, filt.highcut)
 wf.data[1] = filt.butter_bandpass_filter(wf.data[1], filt.lowcut, filt.highcut)
